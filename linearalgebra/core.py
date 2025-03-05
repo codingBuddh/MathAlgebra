@@ -4,6 +4,7 @@ Core linear algebra functionality.
 
 import numpy as np
 from typing import List, Union, Tuple, Dict, Optional
+from . import matrix_ops
 
 class Vector:
     """
@@ -182,9 +183,7 @@ class Matrix:
         if isinstance(other, (int, float)):
             return Matrix(self.data * other)
         elif isinstance(other, Matrix):
-            if self.cols != other.rows:
-                raise ValueError(f"Matrix dimensions incompatible for multiplication: {self.shape} and {other.shape}")
-            return Matrix(np.matmul(self.data, other.data))
+            return matrix_ops.smart_multiply(self, other)
         elif isinstance(other, Vector):
             if self.cols != other.size:
                 raise ValueError(f"Matrix and vector dimensions incompatible for multiplication: {self.shape} and {other.size}")
@@ -247,4 +246,30 @@ class Matrix:
                 A_data[i, j] = coeff_dict.get(var, 0)
             b_data[i] = coeff_dict.get("constant", 0)
         
-        return cls(A_data), Vector(b_data) 
+        return cls(A_data), Vector(b_data)
+
+    def multiply(self, other: 'Matrix', method: str = 'auto', **kwargs) -> 'Matrix':
+        """
+        Multiply with another matrix using a specific method.
+        
+        Args:
+            other (Matrix): Matrix to multiply with
+            method (str): Multiplication method ('auto', 'basic', 'strassen', 'sparse')
+            **kwargs: Additional arguments for specific methods
+                - threshold: Size threshold for Strassen's algorithm
+                - sparsity_threshold: Threshold for considering matrices sparse
+                - format: Sparse matrix format ('csr', 'csc', 'coo')
+        
+        Returns:
+            Matrix: Result of multiplication
+        """
+        if method == 'auto':
+            return matrix_ops.smart_multiply(self, other, **kwargs)
+        elif method == 'basic':
+            return matrix_ops.basic_multiply(self, other)
+        elif method == 'strassen':
+            return matrix_ops.strassen_multiply(self, other, **kwargs.get('threshold', 64))
+        elif method == 'sparse':
+            return matrix_ops.sparse_multiply(self, other, format=kwargs.get('format', 'csr'))
+        else:
+            raise ValueError(f"Unknown multiplication method: {method}") 
