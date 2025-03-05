@@ -1,0 +1,99 @@
+Time-Based Analysis Summary
+=========================
+
+Best Overall Performance:
+Method: Sparse
+Matrix Type: Band
+Size: 512x512
+Time: 0.003380 seconds
+GFLOPS: 79.41
+Memory: 0.1 MB
+Efficiency: 794.09 GFLOPS/MB
+
+Performance by Method:
+
+Block:
+-----
+Best case:
+  Size: 384x384
+  Matrix Type: Sparse
+  Time: 0.007184s
+  GFLOPS: 15.76
+
+Average performance:
+  Time: 0.003264s
+  GFLOPS: 6.83
+
+Strassen:
+--------
+Best case:
+  Size: 512x512
+  Matrix Type: Band
+  Time: 0.007907s
+  GFLOPS: 33.95
+
+Average performance:
+  Time: 0.002168s
+  GFLOPS: 9.82
+
+Naive:
+-----
+Best case:
+  Size: 384x384
+  Matrix Type: Sparse
+  Time: 15.554290s
+  GFLOPS: 0.01
+
+Average performance:
+  Time: 6.477396s
+  GFLOPS: 0.01
+
+Smart:
+-----
+Best case:
+  Size: 512x512
+  Matrix Type: Band
+  Time: 0.003817s
+  GFLOPS: 70.32
+
+Average performance:
+  Time: 0.015206s
+  GFLOPS: 9.76
+
+Sparse:
+------
+Best case:
+  Size: 512x512
+  Matrix Type: Band
+  Time: 0.003380s
+  GFLOPS: 79.41
+
+Average performance:
+  Time: 0.014181s
+  GFLOPS: 7.38
+
+Performance by Matrix Type:
+
+Dense Matrices:
+--------------
+Best method: Strassen
+Size: 512x512
+GFLOPS: 32.47
+
+Band Matrices:
+-------------
+Best method: Sparse
+Size: 512x512
+GFLOPS: 79.41
+
+Symmetric Matrices:
+------------------
+Best method: Strassen
+Size: 512x512
+GFLOPS: 33.72
+
+Sparse Matrices:
+---------------
+Best method: Strassen
+Size: 512x512
+GFLOPS: 33.80

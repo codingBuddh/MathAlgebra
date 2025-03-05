@@ -52,22 +52,36 @@ def strassen_multiply(A: 'Matrix', B: 'Matrix', threshold: int = 64) -> 'Matrix'
     
     A_data = A.data
     B_data = B.data
+    original_shape = (A.rows, B.cols)
     
     def _strassen(A: np.ndarray, B: np.ndarray) -> np.ndarray:
-        n = A.shape[0]
+        m, n = A.shape
+        n2, p = B.shape
         
-        if n <= threshold:
+        if n != n2:
+            raise ValueError(f"Inner dimensions must match: {A.shape} and {B.shape}")
+        
+        # For small or rectangular matrices, use standard multiplication
+        if m <= threshold or n <= threshold or p <= threshold:
             return np.matmul(A, B)
         
+        # Calculate padding size to nearest power of 2
+        max_dim = max(m, n, p)
+        next_power_of_two = 2 ** (max_dim - 1).bit_length()
+        pad_size_m = next_power_of_two - m
+        pad_size_n = next_power_of_two - n
+        pad_size_p = next_power_of_two - p
+        
         # Pad matrices if necessary
-        if n % 2 != 0:
-            pad_size = ((0, 1), (0, 1))
-            A = np.pad(A, pad_size, mode='constant')
-            B = np.pad(B, pad_size, mode='constant')
-            n += 1
+        if pad_size_m > 0 or pad_size_n > 0:
+            A = np.pad(A, ((0, pad_size_m), (0, pad_size_n)), mode='constant')
+        if pad_size_n > 0 or pad_size_p > 0:
+            B = np.pad(B, ((0, pad_size_n), (0, pad_size_p)), mode='constant')
+        
+        new_size = next_power_of_two
         
         # Split matrices
-        mid = n // 2
+        mid = new_size // 2
         A11 = A[:mid, :mid]
         A12 = A[:mid, mid:]
         A21 = A[mid:, :mid]
@@ -96,13 +110,13 @@ def strassen_multiply(A: 'Matrix', B: 'Matrix', threshold: int = 64) -> 'Matrix'
         # Combine quadrants
         C = np.vstack((np.hstack((C11, C12)), np.hstack((C21, C22))))
         
-        # Remove padding if added
-        if A.shape[0] > A_data.shape[0]:
-            C = C[:A_data.shape[0], :B_data.shape[1]]
-        
         return C
     
     result = _strassen(A_data, B_data)
+    
+    # Remove padding to get back original dimensions
+    result = result[:original_shape[0], :original_shape[1]]
+    
     from .core import Matrix
     return Matrix(result)
 

@@ -1,0 +1,89 @@
+Matrix Multiplication Performance Summary
+=====================================
+
+Best Performance:
+  Matrix Type: Band
+  Size: 513x513
+  Performance: 67.14 GFLOPS
+  Memory Usage: 0.0 MB
+  Efficiency: 0.00 GFLOPS/MB
+
+Algorithm Transition Analysis:
+
+At size 64 (boundary):
+  Band (63x63): 0.01 GFLOPS, 0.0 MB
+  Band (64x64): 0.01 GFLOPS, 0.0 MB
+  Band (65x65): 1.77 GFLOPS, 0.0 MB
+  Dense (63x63): 0.01 GFLOPS, 0.0 MB
+  Dense (64x64): 0.01 GFLOPS, 0.0 MB
+  Dense (65x65): 1.61 GFLOPS, 0.0 MB
+  Hankel (63x63): 0.01 GFLOPS, 0.0 MB
+  Hankel (64x64): 0.01 GFLOPS, 0.0 MB
+  Hankel (65x65): 2.08 GFLOPS, 0.0 MB
+  Sparse (63x63): 0.01 GFLOPS, 0.0 MB
+  Sparse (64x64): 0.01 GFLOPS, 0.0 MB
+  Sparse (65x65): 1.01 GFLOPS, 0.0 MB
+  Symmetric (63x63): 0.01 GFLOPS, 0.0 MB
+  Symmetric (64x64): 0.01 GFLOPS, 0.0 MB
+  Symmetric (65x65): 1.91 GFLOPS, 0.0 MB
+  Toeplitz (63x63): 0.01 GFLOPS, 0.0 MB
+  Toeplitz (64x64): 0.01 GFLOPS, 0.0 MB
+  Toeplitz (65x65): 1.09 GFLOPS, 0.0 MB
+
+At size 512 (boundary):
+  Band (511x511): 61.89 GFLOPS, 0.0 MB
+  Band (512x512): 65.52 GFLOPS, 0.0 MB
+  Band (513x513): 67.14 GFLOPS, 0.0 MB
+  Dense (511x511): 29.17 GFLOPS, 0.0 MB
+  Dense (512x512): 12.32 GFLOPS, 0.0 MB
+  Dense (513x513): 10.65 GFLOPS, 0.2 MB
+  Hankel (511x511): 19.82 GFLOPS, 0.0 MB
+  Hankel (512x512): 11.94 GFLOPS, 0.0 MB
+  Hankel (513x513): 12.28 GFLOPS, 0.0 MB
+  Sparse (511x511): 25.48 GFLOPS, 2.0 MB
+  Sparse (512x512): 23.28 GFLOPS, 0.0 MB
+  Sparse (513x513): 24.10 GFLOPS, 0.0 MB
+  Symmetric (511x511): 20.78 GFLOPS, 0.0 MB
+  Symmetric (512x512): 11.67 GFLOPS, 0.0 MB
+  Symmetric (513x513): 12.03 GFLOPS, 0.0 MB
+  Toeplitz (511x511): 29.60 GFLOPS, 6.5 MB
+  Toeplitz (512x512): 12.16 GFLOPS, 0.0 MB
+  Toeplitz (513x513): 12.15 GFLOPS, 0.0 MB
+
+Best Performance by Matrix Type:
+
+Hankel:
+  Size: 128x128
+  Performance: 20.56 GFLOPS
+  Memory Usage: 0.0 MB
+  Efficiency: 0.00 GFLOPS/MB
+
+Sparse:
+  Size: 511x511
+  Performance: 25.48 GFLOPS
+  Memory Usage: 2.0 MB
+  Efficiency: 12.74 GFLOPS/MB
+
+Band:
+  Size: 513x513
+  Performance: 67.14 GFLOPS
+  Memory Usage: 0.0 MB
+  Efficiency: 0.00 GFLOPS/MB
+
+Symmetric:
+  Size: 511x511
+  Performance: 20.78 GFLOPS
+  Memory Usage: 0.0 MB
+  Efficiency: 443.26 GFLOPS/MB
+
+Dense:
+  Size: 511x511
+  Performance: 29.17 GFLOPS
+  Memory Usage: 0.0 MB
+  Efficiency: 0.00 GFLOPS/MB
+
+Toeplitz:
+  Size: 511x511
+  Performance: 29.60 GFLOPS
+  Memory Usage: 6.5 MB
+  Efficiency: 4.55 GFLOPS/MB

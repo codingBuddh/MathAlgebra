@@ -179,11 +179,37 @@ class Matrix:
         return Matrix(self.data - other.data)
     
     def __mul__(self, other: Union['Matrix', Vector, float, int]) -> Union['Matrix', Vector]:
-        """Multiply matrix with another matrix, vector, or scalar."""
+        """
+        Multiply matrix with another matrix, vector, or scalar.
+        Automatically selects the best multiplication method based on matrix characteristics.
+        """
         if isinstance(other, (int, float)):
             return Matrix(self.data * other)
         elif isinstance(other, Matrix):
-            return matrix_ops.smart_multiply(self, other)
+            if self.cols != other.rows:
+                raise ValueError(f"Matrix dimensions incompatible for multiplication: {self.shape} and {other.shape}")
+            
+            # Calculate matrix characteristics
+            size = max(self.rows, self.cols, other.rows, other.cols)
+            self_sparsity = np.count_nonzero(self.data == 0) / self.data.size
+            other_sparsity = np.count_nonzero(other.data == 0) / other.data.size
+            
+            # Check for special cases
+            if np.array_equal(other.data, np.eye(other.rows)):
+                return Matrix(self.data.copy())  # Multiplication with identity
+            elif np.array_equal(other.data, np.zeros(other.shape)):
+                return Matrix(np.zeros(self.shape))  # Multiplication with zeros
+            
+            # Select best method based on characteristics
+            if size <= 64:
+                return matrix_ops.naive_multiply(self, other)  # Best for small matrices
+            elif self_sparsity > 0.8 and other_sparsity > 0.8:
+                return matrix_ops.sparse_multiply(self, other)  # Best for sparse matrices
+            elif size >= 512:
+                return matrix_ops.block_multiply(self, other)  # Best for large matrices
+            else:
+                return matrix_ops.strassen_multiply(self, other)  # Best for medium-sized matrices
+            
         elif isinstance(other, Vector):
             if self.cols != other.size:
                 raise ValueError(f"Matrix and vector dimensions incompatible for multiplication: {self.shape} and {other.size}")
