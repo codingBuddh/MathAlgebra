@@ -6,12 +6,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="mathalgebra",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Aman",
+    author_email="soniaman809@gmail.com",
     description="A linear algebra library for mathematical operations",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/mathalgebra",
+    url="https://github.com/codingBuddh/MathAlgebra/",
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
